@@ -13,13 +13,14 @@ var health = 10 # player health
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var game_manager: Node = %GameManager
 const bullet = preload("res://scenes/bullet.tscn")
-@onready var bullet_obj: Area2D = %Bullet
+@onready var game_over_panel: Panel = %GameOverPanel
 
 # decrease health by x
 func decrease_health(x):
 	health -= x
 	if (health == 0):
-		queue_free()
+		get_tree().paused = true
+		game_over_panel.show()
 
 # Handles player action logic
 func _physics_process(delta: float) -> void:
@@ -30,6 +31,7 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
 	if direction:

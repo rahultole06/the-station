@@ -19,13 +19,15 @@ func _physics_process(delta):
 		animated_sprite_2d.flip_h = false
 	translate(velocity)
 
-func set_direction(dir): # change direction based on player direction
+# change direction based on player direction
+func set_direction(dir):
 	direction = dir
 
-func _on_body_entered(body): # bullet hit mechanic
+# bullet hit mechanic
+func _on_body_entered(body):
 	body.decrease_health(2)
 	queue_free()
-	
 
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void: # distroy bullet if it leaves viewport
+# distroy bullet if it leaves viewport
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free() 
