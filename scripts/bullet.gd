@@ -23,9 +23,7 @@ func set_direction(dir): # change direction based on player direction
 	direction = dir
 
 func _on_body_entered(body): # bullet hit mechanic
-	if (body.name == "CharacterBody2D"):
-		body.decrease_health(2)
-		print(body.health)
+	body.decrease_health(2)
 	queue_free()
 	
 

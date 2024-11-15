@@ -6,16 +6,17 @@ var isLeft = false # stores direction alien is facing
 var speed = 70 # alien speed
 var direction = 1 # used for left right momvement
 var health = 10
+var hit = false
 
 # reference to objects
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var timer_2: Timer = $Timer2
 
 # decrease health by x
 func decrease_health(x):
 	health -= x
-	if (health == 0):
-		queue_free()
-
+	hit = true
+	timer_2.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -36,10 +37,24 @@ func _process(delta: float) -> void:
 	
 	# Change sprite based on action
 	if abs(velocity.x) > 1: # idle player sprite
-		animated_sprite_2d.animation = "walking"
+		if (hit == false):
+			animated_sprite_2d.animation = "walking"
+		else:
+			animated_sprite_2d.animation = "walking_hit"
 	else: # walking sprite
-		animated_sprite_2d.animation = "idle"
+		if (hit == false):
+			animated_sprite_2d.animation = "idle"
+		else:
+			animated_sprite_2d.animation = "idle_hit"
+	
+	# Health checker
+	if (health == 0):
+		queue_free()
 	
 # Used to reverse direction
 func _on_timer_timeout() -> void:
 	direction *= -1
+
+
+func _on_timer_2_timeout() -> void:
+	hit = false
