@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://daq8o5d2826b8"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_sqm5k"]
+[ext_resource type="Texture2D" uid="uid://vd0qlglv675g" path="res://sprites/player_objects/bullet.png" id="2_ty8k0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pqjbl"]
+light_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6pkw"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sre1q"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uao6t"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17se5"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4ixt"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7opy"]
+atlas = ExtResource("2_ty8k0")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83krv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6pkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sre1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uao6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17se5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4ixt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7opy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 13.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n02gh"]
+size = Vector2(4, 2)
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_sqm5k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_pqjbl")
+scale = Vector2(0.0729167, 0.0625)
+sprite_frames = SubResource("SpriteFrames_83krv")
+autoplay = "default"
+frame_progress = 0.651083
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n02gh")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(0.2, 0.1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8oidyog6c13g"]
+
+[ext_resource type="Script" path="res://scripts/box.gd" id="1_r3oe7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qd5a2"]
+size = Vector2(26, 20)
+
+[node name="Box" type="Area2D"]
+position = Vector2(1279, 811)
+script = ExtResource("1_r3oe7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qd5a2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
