@@ -115,6 +115,7 @@ wait_time = 0.5
 
 [node name="ShootTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 1.5
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
