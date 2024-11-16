@@ -1,0 +1,180 @@
+[gd_scene load_steps=18 format=3 uid="uid://dfwbfqepxn8xy"]
+
+[ext_resource type="Texture2D" uid="uid://ce0twjo5lk0p7" path="res://sprites/background/Space Background No Planets.png" id="1_8htfa"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_kcv25"]
+[ext_resource type="Texture2D" uid="uid://dhi236s7lyuia" path="res://sprites/Logo.png" id="2_5dii5"]
+[ext_resource type="Texture2D" uid="uid://d1pvi52rbn2w1" path="res://sprites/background/Earth Background2.png" id="2_7sf8o"]
+[ext_resource type="Texture2D" uid="uid://b1jgkr8w21sp4" path="res://sprites/background/jupiter.png" id="2_g202s"]
+[ext_resource type="Texture2D" uid="uid://ct0uuy0b5746g" path="res://sprites/background/saturn.png" id="3_myu1x"]
+[ext_resource type="Texture2D" uid="uid://c0pkts8w7fait" path="res://sprites/background/wZ9ItVYjXhVtH28XrwHY--1--05lw5.png" id="5_tm0hl"]
+[ext_resource type="Texture2D" uid="uid://26krsplcmei8" path="res://sprites/characters/main-character-mainmenu.png" id="6_d6gb6"]
+[ext_resource type="Texture2D" uid="uid://1d0b8rjbcwhl" path="res://sprites/characters/alien_1_mainmenu.png" id="7_g7o24"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_botu4"]
+atlas = ExtResource("3_myu1x")
+region = Rect2(0, 0, 144, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ivh8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_botu4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxilh"]
+atlas = ExtResource("2_g202s")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8n5to"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxilh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgvie"]
+atlas = ExtResource("6_d6gb6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rf7g0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgvie")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xq3s"]
+atlas = ExtResource("7_g7o24")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_grcmw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xq3s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_kcv25")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+texture = ExtResource("1_8htfa")
+stretch_mode = 1
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -572.0
+offset_top = -218.0
+offset_right = 574.0
+offset_bottom = 317.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+texture = ExtResource("2_7sf8o")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(606, 292)
+scale = Vector2(0.305556, 0.333333)
+sprite_frames = SubResource("SpriteFrames_8ivh8")
+autoplay = "default"
+
+[node name="TextureRect2" type="AnimatedSprite2D" parent="."]
+position = Vector2(824, 372)
+scale = Vector2(0.708334, 0.666667)
+sprite_frames = SubResource("SpriteFrames_8n5to")
+autoplay = "default"
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -102.0
+offset_right = 211.0
+offset_bottom = 204.0
+grow_vertical = 2
+texture = ExtResource("5_tm0hl")
+expand_mode = 3
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(108, 132)
+rotation = -0.47822
+scale = Vector2(5.45313, 5.17187)
+sprite_frames = SubResource("SpriteFrames_rf7g0")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(1009, 238)
+rotation = 0.47822
+scale = Vector2(4.8125, 4.125)
+sprite_frames = SubResource("SpriteFrames_grcmw")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -323.0
+offset_top = -169.0
+offset_right = 359.777
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5dii5")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -13.0
+offset_right = 157.0
+offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "PLAY"
+icon_alignment = 1
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "EXIT GAME"
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
