@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://cowuc8xfpnxvx"]
+[gd_scene load_steps=27 format=4 uid="uid://cowuc8xfpnxvx"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_lj7py"]
 [ext_resource type="Texture2D" uid="uid://dujk20m416w47" path="res://sprites/terrain/TileSet v1.0.png" id="1_pqvwn"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/boundary.gd" id="9_shaa2"]
 [ext_resource type="PackedScene" uid="uid://cm6sprxc3nyt6" path="res://scenes/alien_1.tscn" id="11_mng3p"]
 [ext_resource type="Script" path="res://scripts/game_over.gd" id="13_ojr1n"]
+[ext_resource type="Texture2D" uid="uid://cdfirft8bqj77" path="res://sprites/characters/heart.png" id="14_6mffk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mqvnm"]
 texture = ExtResource("1_pqvwn")
@@ -1128,12 +1129,15 @@ sources/0 = SubResource("TileSetAtlasSource_t0fpb")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bynai"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ocghh"]
+
 [node name="Node" type="Node"]
 script = ExtResource("1_lj7py")
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("health_bar")]
 unique_name_in_owner = true
 script = ExtResource("2_pnfq4")
+health_bar = [NodePath("../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../UI/HealthPanel/HBoxContainer/Heart5")]
 
 [node name="SceneObjects" type="Node" parent="."]
 
@@ -1321,6 +1325,46 @@ text = "RESTART"
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "MAIN MENU"
+
+[node name="HealthPanel" type="Panel" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ocghh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HealthPanel"]
+layout_mode = 1
+offset_left = 31.0
+offset_top = 23.0
+offset_right = 272.0
+offset_bottom = 68.0
+
+[node name="Heart" type="TextureRect" parent="UI/HealthPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_6mffk")
+expand_mode = 2
+
+[node name="Heart2" type="TextureRect" parent="UI/HealthPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_6mffk")
+expand_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="UI/HealthPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_6mffk")
+expand_mode = 2
+
+[node name="Heart4" type="TextureRect" parent="UI/HealthPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_6mffk")
+expand_mode = 2
+
+[node name="Heart5" type="TextureRect" parent="UI/HealthPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_6mffk")
+expand_mode = 2
 
 [connection signal="pressed" from="UI/GameOver/GameOverPanel/VBoxContainer/Restart" to="UI/GameOver" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/GameOver/GameOverPanel/VBoxContainer/MainMenu" to="UI/GameOver" method="_on_main_menu_pressed"]

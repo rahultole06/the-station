@@ -3,7 +3,6 @@
 extends Area2D
 
 # Get references to other objects
-@onready var boundary: TileMapLayer = %Boundary
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
 # instance variables
@@ -25,7 +24,7 @@ func set_direction(dir):
 
 # bullet hit mechanic
 func _on_body_entered(body):
-	body.decrease_health(2)
+	body.decrease_health(1)
 	queue_free()
 
 # distroy bullet if it leaves viewport

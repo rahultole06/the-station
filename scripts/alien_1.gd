@@ -5,7 +5,7 @@ extends CharacterBody2D
 var isLeft = false # stores direction alien is facing
 var speed = 70 # alien speed
 var direction = 1 # used for left right momvement
-var health = 10
+var health = 5
 var hit = false # checks if alien is hit with bullet
 var shooting = false # checks if alien is shooting
 var isVisible = false

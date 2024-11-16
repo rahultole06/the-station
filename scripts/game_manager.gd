@@ -7,7 +7,7 @@ extends Node
 
 # instance variables
 var gun = false # checks if player has gun
-var health = 5 # player health
+@export var health_bar : Array[Node]
 
 # Setter/Getter for gun 
 func getGun():
@@ -15,3 +15,4 @@ func getGun():
 	
 func hasGun():
 	return gun
+		

@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bmqipocaal2er"]
+[gd_scene load_steps=18 format=3 uid="uid://bmqipocaal2er"]
 
 [ext_resource type="Texture2D" uid="uid://scobpiib0gd1" path="res://sprites/characters/main-character-idle.png" id="1_0bt60"]
 [ext_resource type="Script" path="res://scripts/main_character.gd" id="1_4f118"]
+[ext_resource type="Texture2D" uid="uid://bvod6cstd5w54" path="res://sprites/characters/main-character-dodge.png" id="2_8lxa6"]
 [ext_resource type="Texture2D" uid="uid://detdwv5br4hn7" path="res://sprites/characters/main-character-idle-gun.png" id="3_0qbmv"]
 [ext_resource type="Texture2D" uid="uid://iqmy02kxxiv6" path="res://sprites/characters/main-character-walking.png" id="3_kkqhb"]
 [ext_resource type="Texture2D" uid="uid://ck4kjhqnwgpr4" path="res://sprites/characters/main-character-walking-gun.png" id="5_f6mi1"]
@@ -40,6 +41,14 @@ region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y1me6"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8lxa6")
+}],
+"loop": false,
+"name": &"dodge",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qfu66")
@@ -88,6 +97,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gxx16"]
 size = Vector2(31, 58)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f6ju0"]
+size = Vector2(43, 13)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_4f118")
 
@@ -99,9 +111,8 @@ scale = Vector2(3.17188, 3.28125)
 sprite_frames = SubResource("SpriteFrames_y1me6")
 animation = &"walking_gun"
 autoplay = "idle"
-frame_progress = 0.152428
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="NormalHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 23)
 shape = SubResource("RectangleShape2D_gxx16")
 
@@ -110,3 +121,13 @@ zoom = Vector2(2, 2)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(41, -5)
+
+[node name="ShootInterval" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[node name="DodgeHitBox" type="CollisionShape2D" parent="."]
+position = Vector2(-8.5, 45.5)
+shape = SubResource("RectangleShape2D_f6ju0")
+
+[connection signal="timeout" from="ShootInterval" to="." method="_on_shoot_interval_timeout"]
