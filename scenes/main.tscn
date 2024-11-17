@@ -1134,10 +1134,9 @@ sources/0 = SubResource("TileSetAtlasSource_t0fpb")
 [node name="Node" type="Node"]
 script = ExtResource("1_lj7py")
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("health_bar")]
+[node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_pnfq4")
-health_bar = [NodePath("../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../UI/HealthPanel/HBoxContainer/Heart5")]
 
 [node name="SceneObjects" type="Node" parent="."]
 
@@ -1232,9 +1231,10 @@ script = ExtResource("9_shaa2")
 
 [node name="PlayerObjects" type="Node" parent="SceneObjects"]
 
-[node name="CharacterBody2D" parent="SceneObjects" instance=ExtResource("5_wwtks")]
+[node name="CharacterBody2D" parent="SceneObjects" node_paths=PackedStringArray("health_bar") instance=ExtResource("5_wwtks")]
 unique_name_in_owner = true
 position = Vector2(1046, 778)
+health_bar = [NodePath("../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart5")]
 
 [node name="Enemies" type="Node" parent="SceneObjects"]
 

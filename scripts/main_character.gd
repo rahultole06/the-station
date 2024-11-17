@@ -7,9 +7,11 @@ const SPEED = 200.0 # player speed
 const JUMP_VELOCITY = -250.0 
 const SLOW_DOWN_STEP = 10 # Smoothen player stopping motion
 var isLeft = false # stores direction player is facing
+var gun = false # checks if player has gun
 var canShoot = true # used for shoot interval
 var health = 5 # player health
 var isDodging = false # to check if player is dodging
+@export var health_bar : Array[Node]
 
 # Reference to other objects
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -21,11 +23,17 @@ const bullet = preload("res://scenes/bullet.tscn")
 @onready var normal_hit_box: CollisionShape2D = $NormalHitBox
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
 
+# Setter/Getter for gun 
+func getGun():
+	gun = true
+	
+func hasGun():
+	return gun
 
 # decrease health by x
 func decrease_health(x):
 	health -= x
-	game_manager.health_bar[health].hide()
+	health_bar[health].hide()
 	if (health == 0):
 		get_tree().paused = true
 		health_panel.hide()
@@ -73,7 +81,7 @@ func inputMap():
 		velocity.x = 0
 	
 	# Shoot logic
-	if Input.is_action_just_pressed("shoot") && game_manager.hasGun() && !isDodging && canShoot:	
+	if Input.is_action_just_pressed("shoot") && hasGun() && !isDodging && canShoot:	
 		var b = bullet.instantiate()
 		if sign($Marker2D.position.x) == 1:
 			b.set_direction(1)
@@ -85,12 +93,12 @@ func inputMap():
 		shoot_interval.start() # interval handling
 		canShoot = false
 	
-	if Input.is_action_just_pressed("dodge") && game_manager.hasGun():
+	if Input.is_action_just_pressed("dodge") && hasGun():
 		canShoot = false
 		isDodging = true
 		normal_hit_box.set_deferred("disabled", true)
 	
-	if Input.is_action_just_released("dodge") && game_manager.hasGun():
+	if Input.is_action_just_released("dodge") && hasGun():
 		canShoot = true
 		isDodging = false
 		normal_hit_box.set_deferred("disabled", false)
@@ -102,12 +110,12 @@ func updateAnimation():
 	if isDodging: # player is dodging
 		animated_sprite_2d.animation = "dodge"
 	elif abs(velocity.x) > 1: # idle player sprite
-		if (game_manager.hasGun()): # if player has gun
+		if (hasGun()): # if player has gun
 			animated_sprite_2d.animation = "walking_gun"
 		else:
 			animated_sprite_2d.animation = "walking"
 	else: # walking sprite
-		if (game_manager.hasGun()): # if player has gun
+		if (hasGun()): # if player has gun
 			animated_sprite_2d.animation = "idle_gun"
 		else:
 			animated_sprite_2d.animation = "idle"
