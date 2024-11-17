@@ -30,6 +30,7 @@ func _process(delta: float) -> void:
 		translate(velocity)
 	else:
 		velocity.x = 0
+
 	# Check if the alien is moving left or right
 	if velocity.x < 0:
 		isLeft = true
@@ -72,18 +73,19 @@ func _on_direction_timer_timeout() -> void:
 func _on_hit_effect_timer_timeout() -> void:
 	hit = false
 
-# logic to shoot player on sight
+# checks if player is close to alien
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	isVisible = true
 	shoot_timer.start()
 
 
 func _on_shoot_timer_timeout() -> void:
-	var b = bullet.instantiate()
-	if sign($Marker2D.position.x) == 1:
-		b.set_direction(1)
-	else:
-		b.set_direction(-1)
-	get_parent().add_child(b)
-	b.show()
-	b.position = $Marker2D.global_position
+	if (shooting):
+		var b = bullet.instantiate()
+		if sign($Marker2D.position.x) == 1:
+			b.set_direction(1)
+		else:
+			b.set_direction(-1)
+		get_parent().add_child(b)
+		b.show()
+		b.position = $Marker2D.global_position
