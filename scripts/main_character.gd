@@ -24,6 +24,7 @@ const bullet = preload("res://scenes/bullet.tscn")
 @onready var health_panel: Panel = $"../../UI/HealthPanel"
 @onready var normal_hit_box: CollisionShape2D = $NormalHitBox
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
+@onready var enemies: Node = %Enemies
 
 # makes sure dodge hitbox is disabled on start
 func _ready() -> void:
@@ -66,6 +67,11 @@ func _physics_process(delta: float) -> void:
 
 	updateAnimation() # animate the sprite
 	
+	# disable enemy collision on ladder
+	if onLadder:
+		add_collision_exception_with(enemies)
+	else:
+		remove_collision_exception_with(enemies)
 
 # Reset canShoot to allow player to shoot again
 func _on_shoot_interval_timeout() -> void:

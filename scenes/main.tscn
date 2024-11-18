@@ -1398,6 +1398,7 @@ position = Vector2(1064, 779)
 health_bar = [NodePath("../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart5")]
 
 [node name="Enemies" type="Node" parent="SceneObjects"]
+unique_name_in_owner = true
 
 [node name="Alien_1" parent="SceneObjects/Enemies" instance=ExtResource("11_mng3p")]
 position = Vector2(1903, 779)

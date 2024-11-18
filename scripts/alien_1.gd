@@ -17,20 +17,29 @@ const bullet = preload("res://scenes/bullet.tscn")
 @onready var hit_effect_timer: Timer = $HitEffectTimer
 @onready var shoot_timer: Timer = $ShootTimer
 
-# decrease health by x
-func decrease_health(x):
-	health -= x
-	hit = true
-	hit_effect_timer.start()
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	# Health checker
+	if (health == 0):
+		queue_free()
+		
 	if not shooting: # don't move if not shooting
 		velocity.x = delta * speed * direction
 		translate(velocity)
 	else:
 		velocity.x = 0
+	
+	# disable collision with player on ladder
+	if (character_body_2d.onLadder):
+		add_collision_exception_with(character_body_2d)
+	else:
+		remove_collision_exception_with(character_body_2d)
+	
+	updateAnimation()
+	checkShoot()
 
+# Change sprite based on action
+func updateAnimation():
 	# Check if the alien is moving left or right
 	if velocity.x < 0:
 		isLeft = true
@@ -40,11 +49,10 @@ func _process(delta: float) -> void:
 		isLeft = false
 		if sign($Marker2D.position.x) == -1:
 			$Marker2D.position.x *= -1
-	
+
 	# Flip the sprite horizontally based on the direction
 	animated_sprite_2d.flip_h = isLeft
 	
-	# Change sprite based on action
 	if abs(velocity.x) > 1: # idle player sprite
 		if (hit == false):
 			animated_sprite_2d.animation = "walking"
@@ -55,11 +63,14 @@ func _process(delta: float) -> void:
 			animated_sprite_2d.animation = "idle"
 		else:
 			animated_sprite_2d.animation = "idle_hit"
-	
-	# Health checker
-	if (health == 0):
-		queue_free()
-	
+
+# decrease health by x
+func decrease_health(x):
+	health -= x
+	hit = true
+	hit_effect_timer.start()
+
+func checkShoot():
 	var leftOf = character_body_2d.position.x < position.x
 	var inLineOfSight = (character_body_2d.position.y >= position.y - 45) && (character_body_2d.position.y <= position.y + 59)
 	if character_body_2d != null && isVisible && inLineOfSight && ((leftOf && isLeft) || (!leftOf && !isLeft)):
