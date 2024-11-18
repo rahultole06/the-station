@@ -4,6 +4,7 @@ extends CharacterBody2D
 
 # Instance variables
 const SPEED = 200.0 # player speed
+const LADDER_SPEED = 50
 const JUMP_VELOCITY = -250.0 
 const SLOW_DOWN_STEP = 10 # Smoothen player stopping motion
 var isLeft = false # stores direction player is facing
@@ -11,6 +12,7 @@ var gun = false # checks if player has gun
 var canShoot = true # used for shoot interval
 var health = 5 # player health
 var isDodging = false # to check if player is dodging
+var onLadder = false; # checks if player is on ladder
 @export var health_bar : Array[Node]
 
 # Reference to other objects
@@ -22,6 +24,10 @@ const bullet = preload("res://scenes/bullet.tscn")
 @onready var health_panel: Panel = $"../../UI/HealthPanel"
 @onready var normal_hit_box: CollisionShape2D = $NormalHitBox
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
+
+# makes sure dodge hitbox is disabled on start
+func _ready() -> void:
+	dodge_hit_box.set_deferred("disabled", true)
 
 # Setter/Getter for gun 
 func getGun():
@@ -42,7 +48,7 @@ func decrease_health(x):
 # Handles player action logic
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor() && !onLadder:
 		velocity += get_gravity() * delta
 	
 	inputMap() # input logic
@@ -67,8 +73,8 @@ func _on_shoot_interval_timeout() -> void:
 
 func inputMap():
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor() && !isDodging:
-		velocity.y = JUMP_VELOCITY
+	#if Input.is_action_just_pressed("jump") and is_on_floor() && !isDodging:
+		#velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
@@ -82,26 +88,45 @@ func inputMap():
 	
 	# Shoot logic
 	if Input.is_action_just_pressed("shoot") && hasGun() && !isDodging && canShoot:	
-		var b = bullet.instantiate()
+		var b = bullet.instantiate() # make instance of a new bullet
+		
+		# Sets direction of bullet based on player
 		if sign($Marker2D.position.x) == 1:
 			b.set_direction(1)
 		else:
 			b.set_direction(-1)
-		get_parent().add_child(b)
-		b.show()
-		b.position = $Marker2D.global_position
-		shoot_interval.start() # interval handling
-		canShoot = false
+		
+		get_parent().add_child(b) # add to scene
+		b.show() # display bullet
+		b.position = $Marker2D.global_position # set bullet start at gun
+		shoot_interval.start() # shoot interval handling
+		canShoot = false # disables rapid shots
 	
-	if Input.is_action_just_pressed("dodge") && hasGun():
-		canShoot = false
-		isDodging = true
-		normal_hit_box.set_deferred("disabled", true)
+	# dodging input
+	if hasGun() && !onLadder:
+		if Input.is_action_just_pressed("dodge") && hasGun():
+			canShoot = false
+			isDodging = true
+			
+			# hitbox handling
+			normal_hit_box.set_deferred("disabled", true)
+			dodge_hit_box.set_deferred("disabled", false)
+		if Input.is_action_just_released("dodge") && hasGun():
+			canShoot = true
+			isDodging = false
+			
+			# hitbox handling
+			normal_hit_box.set_deferred("disabled", false)
+			dodge_hit_box.set_deferred("disabled", true)
 	
-	if Input.is_action_just_released("dodge") && hasGun():
-		canShoot = true
-		isDodging = false
-		normal_hit_box.set_deferred("disabled", false)
+	# handles ladder climb input
+	if onLadder && !isDodging:
+		if Input.is_action_pressed("up"): # going up
+			velocity.y = -LADDER_SPEED
+		elif Input.is_action_pressed("down"): # going down
+			velocity.y = LADDER_SPEED
+		else: # stop on ladder
+			velocity.y = 0
 
 # Update animation sprite based on action
 func updateAnimation():

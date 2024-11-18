@@ -95,7 +95,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gxx16"]
-size = Vector2(31, 58)
+size = Vector2(18, 101)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f6ju0"]
 size = Vector2(43, 13)
@@ -113,7 +113,7 @@ animation = &"walking_gun"
 autoplay = "idle"
 
 [node name="NormalHitBox" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 23)
+position = Vector2(-3, 1.5)
 shape = SubResource("RectangleShape2D_gxx16")
 
 [node name="Camera2D" type="Camera2D" parent="."]

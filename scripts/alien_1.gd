@@ -61,8 +61,11 @@ func _process(delta: float) -> void:
 		queue_free()
 	
 	var leftOf = character_body_2d.position.x < position.x
-	if character_body_2d != null && isVisible && ((leftOf && isLeft) || (!leftOf && !isLeft)):
+	var inLineOfSight = (character_body_2d.position.y >= position.y - 45) && (character_body_2d.position.y <= position.y + 59)
+	if character_body_2d != null && isVisible && inLineOfSight && ((leftOf && isLeft) || (!leftOf && !isLeft)):
 		shooting = true
+	else:
+		shooting = false
 
 # Used to reverse direction
 func _on_direction_timer_timeout() -> void:
