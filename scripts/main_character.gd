@@ -70,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	# disable enemy collision on ladder
 	if onLadder:
 		add_collision_exception_with(enemies)
+		disableDodge() # makes sure dodging stops on ladder
 	else:
 		remove_collision_exception_with(enemies)
 
@@ -111,19 +112,9 @@ func inputMap():
 	# dodging input
 	if hasGun() && !onLadder:
 		if Input.is_action_just_pressed("dodge") && hasGun():
-			canShoot = false
-			isDodging = true
-			
-			# hitbox handling
-			normal_hit_box.set_deferred("disabled", true)
-			dodge_hit_box.set_deferred("disabled", false)
+			enableDodge()
 		if Input.is_action_just_released("dodge") && hasGun():
-			canShoot = true
-			isDodging = false
-			
-			# hitbox handling
-			normal_hit_box.set_deferred("disabled", false)
-			dodge_hit_box.set_deferred("disabled", true)
+			disableDodge()
 	
 	# handles ladder climb input
 	if onLadder && !isDodging:
@@ -134,6 +125,24 @@ func inputMap():
 		else: # stop on ladder
 			velocity.y = 0
 
+# enable dodging mechanic
+func enableDodge():
+	canShoot = false
+	isDodging = true
+	
+	# hitbox handling
+	normal_hit_box.set_deferred("disabled", true)
+	dodge_hit_box.set_deferred("disabled", false)
+
+# disable dodging mechanic
+func disableDodge():
+	canShoot = true
+	isDodging = false
+	
+	# hitbox handling
+	normal_hit_box.set_deferred("disabled", false)
+	dodge_hit_box.set_deferred("disabled", true)
+	
 # Update animation sprite based on action
 func updateAnimation():
 	# Flip the sprite horizontally based on the direction
