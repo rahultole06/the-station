@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=4 uid="uid://cowuc8xfpnxvx"]
+[gd_scene load_steps=114 format=4 uid="uid://cowuc8xfpnxvx"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_lj7py"]
 [ext_resource type="Texture2D" uid="uid://dujk20m416w47" path="res://sprites/terrain/TileSet v1.0.png" id="1_pqvwn"]
@@ -23,6 +23,9 @@
 [ext_resource type="Texture2D" uid="uid://cbxqj8sykt4hy" path="res://sprites/player_objects/control_panel_idle.png" id="16_8qkdb"]
 [ext_resource type="Texture2D" uid="uid://cwbt2eai46v3n" path="res://sprites/player_objects/control_panel_deactivate.png" id="17_4dcec"]
 [ext_resource type="Script" path="res://scripts/control_panel.gd" id="17_fypi7"]
+[ext_resource type="Texture2D" uid="uid://b6nsqm4c3neui" path="res://sprites/characters/hurt_man.png" id="22_a5xce"]
+[ext_resource type="Script" path="res://scripts/hurt_man.gd" id="22_ucqg0"]
+[ext_resource type="Texture2D" uid="uid://borvlk73mxg6f" path="res://sprites/characters/hurt_man_gun.png" id="23_crhg1"]
 [ext_resource type="Script" path="res://scripts/pause_panel.gd" id="24_3ftxk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mqvnm"]
@@ -2236,6 +2239,36 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm87o"]
 size = Vector2(20, 26)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yswd"]
+atlas = ExtResource("22_a5xce")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhtbi"]
+atlas = ExtResource("23_crhg1")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_an3ls"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7yswd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhtbi")
+}],
+"loop": true,
+"name": &"idle_gun",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fshm"]
+size = Vector2(46, 56)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bynai"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ocghh"]
@@ -2515,13 +2548,6 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_fm87o")
 metadata/_edit_lock_ = true
 
-[node name="PlayerObjects" type="Node" parent="SceneObjects"]
-
-[node name="CharacterBody2D" parent="SceneObjects" node_paths=PackedStringArray("health_bar") instance=ExtResource("5_wwtks")]
-unique_name_in_owner = true
-position = Vector2(1416, 775)
-health_bar = [NodePath("../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../UI/HealthPanel/HBoxContainer/Heart5")]
-
 [node name="Enemies" type="Node" parent="SceneObjects"]
 unique_name_in_owner = true
 
@@ -2536,6 +2562,29 @@ position = Vector2(2527, 554)
 
 [node name="Alien_4" parent="SceneObjects/Enemies" instance=ExtResource("11_mng3p")]
 position = Vector2(2064, 556)
+
+[node name="Characters" type="Node" parent="SceneObjects"]
+
+[node name="HurtMan" type="Area2D" parent="SceneObjects/Characters"]
+position = Vector2(2544, 416)
+script = ExtResource("22_ucqg0")
+
+[node name="HurtManSprite" type="AnimatedSprite2D" parent="SceneObjects/Characters/HurtMan"]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_an3ls")
+animation = &"idle_gun"
+autoplay = "idle_gun"
+metadata/_edit_lock_ = true
+
+[node name="HurtManHitbox" type="CollisionShape2D" parent="SceneObjects/Characters/HurtMan"]
+position = Vector2(-8, 5)
+shape = SubResource("RectangleShape2D_1fshm")
+metadata/_edit_lock_ = true
+
+[node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar") instance=ExtResource("5_wwtks")]
+unique_name_in_owner = true
+position = Vector2(1382, 768)
+health_bar = [NodePath("../../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart5")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -2755,6 +2804,8 @@ text = "Main Menu"
 [connection signal="body_exited" from="SceneObjects/Interactables/Ladders/BaseToFirst2" to="SceneObjects/Interactables/Ladders/BaseToFirst2" method="_on_body_exited"]
 [connection signal="body_entered" from="SceneObjects/Interactables/ControlPanel" to="SceneObjects/Interactables/ControlPanel" method="_on_body_entered"]
 [connection signal="body_exited" from="SceneObjects/Interactables/ControlPanel" to="SceneObjects/Interactables/ControlPanel" method="_on_body_exited"]
+[connection signal="body_entered" from="SceneObjects/Characters/HurtMan" to="SceneObjects/Characters/HurtMan" method="_on_body_entered"]
+[connection signal="body_exited" from="SceneObjects/Characters/HurtMan" to="SceneObjects/Characters/HurtMan" method="_on_body_exited"]
 [connection signal="pressed" from="UI/GameOver/GameOverPanel/VBoxContainer/Restart" to="UI/GameOver" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/GameOver/GameOverPanel/VBoxContainer/MainMenu" to="UI/GameOver" method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/PausePanel/VBoxContainer/Resume" to="UI/PausePanel" method="_on_resume_pressed"]

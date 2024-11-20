@@ -67,7 +67,7 @@ func _physics_process(delta: float) -> void:
 
 	updateAnimation() # animate the sprite
 	
-	# disable enemy collision on ladder
+	# add restrictions on ladder
 	if onLadder:
 		add_collision_exception_with(enemies)
 		disableDodge() # makes sure dodging stops on ladder
@@ -94,7 +94,7 @@ func inputMap():
 		velocity.x = 0
 	
 	# Shoot logic
-	if Input.is_action_just_pressed("shoot") && hasGun() && !isDodging && canShoot:	
+	if Input.is_action_just_pressed("shoot") && hasGun() && !isDodging && canShoot && !onLadder:	
 		var b = bullet.instantiate() # make instance of a new bullet
 		
 		# Sets direction of bullet based on player

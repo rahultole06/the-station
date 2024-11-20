@@ -6,16 +6,19 @@ extends Area2D
 @onready var gun_panel: Panel = %GunPanel
 @onready var character_body_2d: CharacterBody2D = %CharacterBody2D
 
+var clickable = false
+
 # Used to display pickup dialogue in front of storage box
 func _on_body_entered(body: Node2D) -> void:
 	if (body.name == "CharacterBody2D"):
-		if (body.hasGun() == false):
+		if (!body.hasGun()):
 			gun_panel.show()
+			clickable = true
 
 # Gun pickup logic 
 func _process(delta: float) -> void:
 	var e_pressed = Input.is_action_just_pressed("interact")
-	if (e_pressed == true && gun_panel.visible == true):
+	if (e_pressed == true && clickable):
 			character_body_2d.getGun()
 			gun_panel.hide()
 
@@ -23,3 +26,4 @@ func _process(delta: float) -> void:
 func _on_body_exited(body: Node2D) -> void:
 	if (body.name == "CharacterBody2D"):
 		gun_panel.hide()
+		clickable = false
