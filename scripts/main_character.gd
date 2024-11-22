@@ -19,12 +19,11 @@ var onLadder = false; # checks if player is on ladder
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var game_manager: Node = %GameManager
 const bullet = preload("res://scenes/bullet.tscn")
-@onready var game_over_panel: Panel = %GameOverPanel
 @onready var shoot_interval: Timer = %ShootInterval
-@onready var health_panel: Panel = $"../../UI/HealthPanel"
 @onready var normal_hit_box: CollisionShape2D = $NormalHitBox
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
 @onready var enemies: Node = %Enemies
+@onready var game_over_panel: Panel = %GameOverPanel
 
 # makes sure dodge hitbox is disabled on start
 func _ready() -> void:
@@ -42,8 +41,7 @@ func decrease_health(x):
 	health -= x
 	health_bar[health].hide()
 	if (health == 0):
-		get_tree().paused = true
-		health_panel.hide()
+		get_tree().set_pause(true)
 		game_over_panel.show()
 
 # Handles player action logic
