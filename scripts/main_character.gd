@@ -8,12 +8,15 @@ const LADDER_SPEED = 50
 const JUMP_VELOCITY = -250.0 
 const SLOW_DOWN_STEP = 10 # Smoothen player stopping motion
 var isLeft = false # stores direction player is facing
-var gun = false # checks if player has gun
+var gun = "none" # checks if player has gun
+var hasSuit = false # checks if player has suit
 var canShoot = true # used for shoot interval
 var health = 5 # player health
+var shield = 5 # suit shield
 var isDodging = false # to check if player is dodging
 var onLadder = false; # checks if player is on ladder
 @export var health_bar : Array[Node]
+@export var shield_bar : Array[Node]
 
 # Reference to other objects
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -24,25 +27,11 @@ const bullet = preload("res://scenes/bullet.tscn")
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
 @onready var enemies: Node = %Enemies
 @onready var game_over_panel: Panel = %GameOverPanel
+@onready var shield_panel: Panel = %ShieldPanel
 
 # makes sure dodge hitbox is disabled on start
 func _ready() -> void:
 	dodge_hit_box.set_deferred("disabled", true)
-
-# Setter/Getter for gun 
-func getGun():
-	gun = true
-	
-func hasGun():
-	return gun
-
-# decrease health by x
-func decrease_health(x):
-	health -= x
-	health_bar[health].hide()
-	if (health == 0):
-		get_tree().set_pause(true)
-		game_over_panel.show()
 
 # Handles player action logic
 func _physics_process(delta: float) -> void:
@@ -92,7 +81,8 @@ func inputMap():
 		velocity.x = 0
 	
 	# Shoot logic
-	if Input.is_action_just_pressed("shoot") && hasGun() && !isDodging && canShoot && !onLadder:	
+	var isEquiped = hasSmallGun() || hasBigGun() # checks if player has any gun
+	if Input.is_action_just_pressed("shoot") && isEquiped && !isDodging && canShoot && !onLadder:	
 		var b = bullet.instantiate() # make instance of a new bullet
 		
 		# Sets direction of bullet based on player
@@ -108,10 +98,10 @@ func inputMap():
 		canShoot = false # disables rapid shots
 	
 	# dodging input
-	if hasGun() && !onLadder:
-		if Input.is_action_just_pressed("dodge") && hasGun():
+	if isEquiped && !onLadder:
+		if Input.is_action_just_pressed("dodge"):
 			enableDodge()
-		if Input.is_action_just_released("dodge") && hasGun():
+		if Input.is_action_just_released("dodge"):
 			disableDodge()
 	
 	# handles ladder climb input
@@ -122,6 +112,71 @@ func inputMap():
 			velocity.y = LADDER_SPEED
 		else: # stop on ladder
 			velocity.y = 0
+	
+# Update animation sprite based on action
+func updateAnimation():
+	# Flip the sprite horizontally based on the direction
+	animated_sprite_2d.flip_h = isLeft
+	if isDodging: # player is dodging
+		if (hasSuit):
+			animated_sprite_2d.animation = "astro_dodge"
+		else:
+			animated_sprite_2d.animation = "dodge"
+	elif abs(velocity.x) > 1: # walking player sprite
+		if (hasSuit && hasBigGun()):
+			animated_sprite_2d.animation = "astro_walking_gun"
+		elif (hasSuit):
+			animated_sprite_2d.animation = "astro_walking"
+		elif (hasBigGun()):
+			animated_sprite_2d.animation = "walking_biggun"
+		elif (hasSmallGun()):
+			animated_sprite_2d.animation = "walking_gun"
+		else:
+			animated_sprite_2d.animation = "walking"
+	else: # idle sprite
+		if (hasSuit && hasBigGun()):
+			animated_sprite_2d.animation = "astro_idle_gun"
+		elif (hasSuit):
+			animated_sprite_2d.animation = "astro_idle"
+		elif (hasBigGun()):
+			animated_sprite_2d.animation = "idle_biggun"
+		elif (hasSmallGun()):
+			animated_sprite_2d.animation = "idle_gun"
+		else:
+			animated_sprite_2d.animation = "idle"
+	animated_sprite_2d.play()
+
+# Setter for guns
+func getSmallGun():
+	gun = "small"
+
+func getBigGun():
+	gun = "big"
+	shoot_interval.set_wait_time(0.1)
+
+# Getter for guns
+func hasSmallGun():
+	return gun == "small"
+
+func hasBigGun():
+	return gun == "big"
+
+# Setter for suit
+func getSuit():
+	hasSuit = true
+	shield_panel.show()
+
+# decrease health by x
+func decrease_health(x):
+	if (hasSuit && shield > 0):
+		shield -= x
+		shield_bar[shield].hide()
+	else:
+		health -= x
+		health_bar[health].hide()
+		if (health == 0):
+			get_tree().set_pause(true)
+			game_over_panel.show()
 
 # enable dodging mechanic
 func enableDodge():
@@ -140,21 +195,3 @@ func disableDodge():
 	# hitbox handling
 	normal_hit_box.set_deferred("disabled", false)
 	dodge_hit_box.set_deferred("disabled", true)
-	
-# Update animation sprite based on action
-func updateAnimation():
-	# Flip the sprite horizontally based on the direction
-	animated_sprite_2d.flip_h = isLeft
-	if isDodging: # player is dodging
-		animated_sprite_2d.animation = "dodge"
-	elif abs(velocity.x) > 1: # idle player sprite
-		if (hasGun()): # if player has gun
-			animated_sprite_2d.animation = "walking_gun"
-		else:
-			animated_sprite_2d.animation = "walking"
-	else: # walking sprite
-		if (hasGun()): # if player has gun
-			animated_sprite_2d.animation = "idle_gun"
-		else:
-			animated_sprite_2d.animation = "idle"
-	animated_sprite_2d.play()

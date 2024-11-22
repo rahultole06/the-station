@@ -6,19 +6,16 @@ extends Area2D
 
 var clickable = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if (clickable && Input.is_action_just_pressed("interact")):
 			hurt_man_sprite.animation = "idle"
+			character_body_2d.getBigGun()
+			gun_panel.hide()
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body.get_name() == "CharacterBody2D"):
+	if (body.get_name() == "CharacterBody2D" && !body.hasBigGun()):
 		gun_panel.show()
 		clickable = true
 

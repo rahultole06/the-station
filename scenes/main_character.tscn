@@ -1,11 +1,54 @@
-[gd_scene load_steps=18 format=3 uid="uid://bmqipocaal2er"]
+[gd_scene load_steps=38 format=3 uid="uid://bmqipocaal2er"]
 
 [ext_resource type="Texture2D" uid="uid://scobpiib0gd1" path="res://sprites/characters/main-character-idle.png" id="1_0bt60"]
 [ext_resource type="Script" path="res://scripts/main_character.gd" id="1_4f118"]
 [ext_resource type="Texture2D" uid="uid://bvod6cstd5w54" path="res://sprites/characters/main-character-dodge.png" id="2_8lxa6"]
+[ext_resource type="Texture2D" uid="uid://bxx8eow6ekakh" path="res://sprites/characters/main-character-astro-idle.png" id="2_m1lkp"]
+[ext_resource type="Texture2D" uid="uid://ba00r6mpefkbb" path="res://sprites/characters/main-character-astro-dodge.png" id="2_o88mh"]
 [ext_resource type="Texture2D" uid="uid://detdwv5br4hn7" path="res://sprites/characters/main-character-idle-gun.png" id="3_0qbmv"]
 [ext_resource type="Texture2D" uid="uid://iqmy02kxxiv6" path="res://sprites/characters/main-character-walking.png" id="3_kkqhb"]
+[ext_resource type="Texture2D" uid="uid://cevhchxal8evl" path="res://sprites/characters/main-character-astro-idle-gun.png" id="3_vsydb"]
+[ext_resource type="Texture2D" uid="uid://c1045u4diqydo" path="res://sprites/characters/main-character-astro-walk.png" id="4_8ne78"]
 [ext_resource type="Texture2D" uid="uid://ck4kjhqnwgpr4" path="res://sprites/characters/main-character-walking-gun.png" id="5_f6mi1"]
+[ext_resource type="Texture2D" uid="uid://b320b1g3yc6lb" path="res://sprites/characters/main-character-astro-walk-gun.png" id="5_jdteg"]
+[ext_resource type="Texture2D" uid="uid://v5o6wjyusab0" path="res://sprites/characters/main-character-idle-biggun.png" id="8_fihwj"]
+[ext_resource type="Texture2D" uid="uid://ywj7ti0ffgl8" path="res://sprites/characters/main-character-walking-biggun.png" id="11_pdjdm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnx7q"]
+atlas = ExtResource("2_o88mh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asblr"]
+atlas = ExtResource("2_m1lkp")
+region = Rect2(0, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dahaq"]
+atlas = ExtResource("2_m1lkp")
+region = Rect2(32, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_siafs"]
+atlas = ExtResource("3_vsydb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aq7i2"]
+atlas = ExtResource("3_vsydb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa0ii"]
+atlas = ExtResource("4_8ne78")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1fn0"]
+atlas = ExtResource("4_8ne78")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vodov"]
+atlas = ExtResource("5_jdteg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffwcy"]
+atlas = ExtResource("5_jdteg")
+region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfu66"]
 atlas = ExtResource("1_0bt60")
@@ -13,6 +56,14 @@ region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lvqdw"]
 atlas = ExtResource("1_0bt60")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elr18"]
+atlas = ExtResource("8_fihwj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yeil"]
+atlas = ExtResource("8_fihwj")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mf3u8"]
@@ -31,6 +82,14 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("3_kkqhb")
 region = Rect2(32, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hwto"]
+atlas = ExtResource("11_pdjdm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3v7j4"]
+atlas = ExtResource("11_pdjdm")
+region = Rect2(32, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dacgh"]
 atlas = ExtResource("5_f6mi1")
 region = Rect2(0, 0, 32, 32)
@@ -41,6 +100,58 @@ region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y1me6"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnx7q")
+}],
+"loop": true,
+"name": &"astro_dodge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asblr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dahaq")
+}],
+"loop": true,
+"name": &"astro_idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_siafs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aq7i2")
+}],
+"loop": true,
+"name": &"astro_idle_gun",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa0ii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1fn0")
+}],
+"loop": true,
+"name": &"astro_walking",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vodov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffwcy")
+}],
+"loop": true,
+"name": &"astro_walking_gun",
+"speed": 3.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_8lxa6")
@@ -58,6 +169,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elr18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yeil")
+}],
+"loop": true,
+"name": &"idle_biggun",
 "speed": 3.0
 }, {
 "frames": [{
@@ -80,6 +202,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hwto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3v7j4")
+}],
+"loop": true,
+"name": &"walking_biggun",
 "speed": 3.0
 }, {
 "frames": [{
@@ -109,7 +242,7 @@ texture_filter = 1
 position = Vector2(0, 1.90735e-06)
 scale = Vector2(3.17188, 3.28125)
 sprite_frames = SubResource("SpriteFrames_y1me6")
-animation = &"walking_gun"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="NormalHitBox" type="CollisionShape2D" parent="."]

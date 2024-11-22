@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=4 uid="uid://cowuc8xfpnxvx"]
+[gd_scene load_steps=119 format=4 uid="uid://cowuc8xfpnxvx"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_lj7py"]
 [ext_resource type="Texture2D" uid="uid://dujk20m416w47" path="res://sprites/terrain/TileSet v1.0.png" id="1_pqvwn"]
@@ -23,10 +23,12 @@
 [ext_resource type="Texture2D" uid="uid://cbxqj8sykt4hy" path="res://sprites/player_objects/control_panel_idle.png" id="16_8qkdb"]
 [ext_resource type="Texture2D" uid="uid://cwbt2eai46v3n" path="res://sprites/player_objects/control_panel_deactivate.png" id="17_4dcec"]
 [ext_resource type="Script" path="res://scripts/control_panel.gd" id="17_fypi7"]
+[ext_resource type="Script" path="res://scripts/suit.gd" id="20_2hb46"]
 [ext_resource type="Texture2D" uid="uid://b6nsqm4c3neui" path="res://sprites/characters/hurt_man.png" id="22_a5xce"]
 [ext_resource type="Script" path="res://scripts/hurt_man.gd" id="22_ucqg0"]
 [ext_resource type="Texture2D" uid="uid://borvlk73mxg6f" path="res://sprites/characters/hurt_man_gun.png" id="23_crhg1"]
 [ext_resource type="Script" path="res://scripts/pause_panel.gd" id="24_3ftxk"]
+[ext_resource type="Texture2D" uid="uid://b833p0x8l4oer" path="res://sprites/characters/shield.png" id="29_5uaed"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mqvnm"]
 texture = ExtResource("1_pqvwn")
@@ -2239,6 +2241,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm87o"]
 size = Vector2(20, 26)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rpxjs"]
+size = Vector2(38, 38)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_7yswd"]
 atlas = ExtResource("22_a5xce")
 region = Rect2(0, 0, 64, 64)
@@ -2274,6 +2279,10 @@ size = Vector2(46, 56)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ocghh"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i07gu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0e0ml"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pctda"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_lj7py")
@@ -2548,6 +2557,14 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_fm87o")
 metadata/_edit_lock_ = true
 
+[node name="Suit" type="Area2D" parent="SceneObjects/Interactables"]
+position = Vector2(2440, 425)
+script = ExtResource("20_2hb46")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneObjects/Interactables/Suit"]
+shape = SubResource("RectangleShape2D_rpxjs")
+metadata/_edit_lock_ = true
+
 [node name="Enemies" type="Node" parent="SceneObjects"]
 unique_name_in_owner = true
 
@@ -2581,10 +2598,11 @@ position = Vector2(-8, 5)
 shape = SubResource("RectangleShape2D_1fshm")
 metadata/_edit_lock_ = true
 
-[node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar") instance=ExtResource("5_wwtks")]
+[node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar", "shield_bar") instance=ExtResource("5_wwtks")]
 unique_name_in_owner = true
-position = Vector2(1382, 768)
+position = Vector2(2295, 393)
 health_bar = [NodePath("../../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart5")]
+shield_bar = [NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield2"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield3"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield4"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield5")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -2801,6 +2819,71 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Main Menu"
 
+[node name="SuitPanel" type="Panel" parent="UI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0e0ml")
+
+[node name="Label" type="Label" parent="UI/SuitPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -11.5
+offset_right = 82.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Press E to pickup suit"
+
+[node name="ShieldPanel" type="Panel" parent="UI"]
+unique_name_in_owner = true
+visible = false
+offset_right = 218.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pctda")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/ShieldPanel"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 64.0
+offset_right = 259.0
+offset_bottom = 104.0
+
+[node name="Shield" type="TextureRect" parent="UI/ShieldPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("29_5uaed")
+expand_mode = 2
+
+[node name="Shield2" type="TextureRect" parent="UI/ShieldPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("29_5uaed")
+expand_mode = 2
+
+[node name="Shield3" type="TextureRect" parent="UI/ShieldPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("29_5uaed")
+expand_mode = 2
+
+[node name="Shield4" type="TextureRect" parent="UI/ShieldPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("29_5uaed")
+expand_mode = 2
+
+[node name="Shield5" type="TextureRect" parent="UI/ShieldPanel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("29_5uaed")
+expand_mode = 2
+
 [connection signal="body_entered" from="SceneObjects/Interactables/Ladders/BaseToFirst" to="SceneObjects/Interactables/Ladders/BaseToFirst" method="_on_body_entered"]
 [connection signal="body_exited" from="SceneObjects/Interactables/Ladders/BaseToFirst" to="SceneObjects/Interactables/Ladders/BaseToFirst" method="_on_body_exited"]
 [connection signal="body_entered" from="SceneObjects/Interactables/Ladders/FirstToSecond" to="SceneObjects/Interactables/Ladders/FirstToSecond" method="_on_body_entered"]
@@ -2809,6 +2892,8 @@ text = "Main Menu"
 [connection signal="body_exited" from="SceneObjects/Interactables/Ladders/BaseToFirst2" to="SceneObjects/Interactables/Ladders/BaseToFirst2" method="_on_body_exited"]
 [connection signal="body_entered" from="SceneObjects/Interactables/ControlPanel" to="SceneObjects/Interactables/ControlPanel" method="_on_body_entered"]
 [connection signal="body_exited" from="SceneObjects/Interactables/ControlPanel" to="SceneObjects/Interactables/ControlPanel" method="_on_body_exited"]
+[connection signal="body_entered" from="SceneObjects/Interactables/Suit" to="SceneObjects/Interactables/Suit" method="_on_body_entered"]
+[connection signal="body_exited" from="SceneObjects/Interactables/Suit" to="SceneObjects/Interactables/Suit" method="_on_body_exited"]
 [connection signal="body_entered" from="SceneObjects/Characters/HurtMan" to="SceneObjects/Characters/HurtMan" method="_on_body_entered"]
 [connection signal="body_exited" from="SceneObjects/Characters/HurtMan" to="SceneObjects/Characters/HurtMan" method="_on_body_exited"]
 [connection signal="pressed" from="UI/PausePanel/VBoxContainer/Resume" to="UI/PausePanel" method="_on_resume_pressed"]
