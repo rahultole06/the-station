@@ -9,6 +9,7 @@ extends Area2D
 @onready var open_hitbox: CollisionShape2D = %OpenHitbox
 @onready var control_panel: Panel = %ControlPanel
 @onready var control_panel_animation: AnimatedSprite2D = %ControlPanelAnimation
+@onready var character_body_2d: CharacterBody2D = %CharacterBody2D
 
 # instance variables
 var clickable = false # checks if player is near object
@@ -31,9 +32,10 @@ func _process(delta: float) -> void:
 
 # checked if player is in front of panel
 func _on_body_entered(body: Node2D) -> void:
-	clickable = true
-	if (!opened):
-		control_panel.set_visible(true)
+	if (body.name == "CharacterBody2D" && body.hasSuit && body.hasBigGun()):
+		clickable = true
+		if (!opened):
+			control_panel.set_visible(true)
 
 func _on_body_exited(body: Node2D) -> void:
 	clickable = false

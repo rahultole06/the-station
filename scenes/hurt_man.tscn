@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbva0h6wwya07"]
+
+[ext_resource type="Script" path="res://scripts/hurt_man.gd" id="1_axu1w"]
+[ext_resource type="Texture2D" uid="uid://b6nsqm4c3neui" path="res://sprites/characters/hurt_man.png" id="2_kw2up"]
+[ext_resource type="Texture2D" uid="uid://borvlk73mxg6f" path="res://sprites/characters/hurt_man_gun.png" id="3_u760q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yswd"]
+atlas = ExtResource("2_kw2up")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhtbi"]
+atlas = ExtResource("3_u760q")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_an3ls"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7yswd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhtbi")
+}],
+"loop": true,
+"name": &"idle_gun",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fshm"]
+size = Vector2(46, 56)
+
+[node name="HurtMan" type="Area2D"]
+position = Vector2(2544, 416)
+script = ExtResource("1_axu1w")
+
+[node name="HurtManSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_an3ls")
+animation = &"idle_gun"
+autoplay = "idle_gun"
+metadata/_edit_lock_ = true
+
+[node name="HurtManHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-8, 5)
+shape = SubResource("RectangleShape2D_1fshm")
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

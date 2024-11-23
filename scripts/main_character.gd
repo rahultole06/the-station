@@ -174,7 +174,7 @@ func decrease_health(x):
 	else:
 		health -= x
 		health_bar[health].hide()
-		if (health == 0):
+		if (health <= 0):
 			get_tree().set_pause(true)
 			game_over_panel.show()
 

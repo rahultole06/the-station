@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 	if (health == 0):
 		queue_free()
 		
-	if not shooting: # don't move if not shooting
+	if not shooting: # don't move if shooting
 		velocity.x = delta * speed * direction
 		translate(velocity)
 	else:
