@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dfwbfqepxn8xy"]
+[gd_scene load_steps=19 format=3 uid="uid://dfwbfqepxn8xy"]
 
 [ext_resource type="Texture2D" uid="uid://ce0twjo5lk0p7" path="res://sprites/background/Space Background No Planets.png" id="1_8htfa"]
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_kcv25"]
@@ -70,6 +70,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_2xndu"]
+font_size = 25
+
 [node name="MainMenu" type="Node"]
 script = ExtResource("1_kcv25")
 
@@ -89,7 +92,7 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -572.0
+offset_left = -576.0
 offset_top = -218.0
 offset_right = 574.0
 offset_bottom = 317.0
@@ -175,6 +178,26 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 25
 text = "EXIT GAME"
+
+[node name="RichTextLabel" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = -92.0
+offset_right = -57.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "Created by:
+Rahul M. Tole"
+label_settings = SubResource("LabelSettings_2xndu")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

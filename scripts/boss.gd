@@ -3,7 +3,7 @@
 extends CharacterBody2D
 
 var speed = 70 # alien speed
-var health = 50
+var health = 100
 var hit = false # checks if alien is hit with bullet
 var engage = false # checks if alien is approaching
 var attacking = false
@@ -21,24 +21,20 @@ var has_attacked = false  # Ensures the alien attacks only once per engagement
 func _process(delta: float) -> void:
 	# Health checker
 	if (health <= 0):
-		queue_free()
-		return
-	
-	# reset velocity
-	#velocity = Vector2.ZERO
+		get_tree().change_scene_to_file("res://scenes/end_screen.tscn")
 	
 	# Calculate the distance to the player
 	var distance_to_player = character_body_2d.position.distance_to(position)
 	
 	# Movement logic
 	if retreating or distance_to_player < min_proximity:
-		velocity.x = speed * delta  # Move away from the player
-	elif attacking or !engage or distance_to_player <= min_proximity:
+		velocity.x += -speed * delta  # Move away from the player
+	elif !attacking && !engage or distance_to_player <= min_proximity:
 		velocity.x = 0  # Stop moving if attacking or not engaged
 	else:
-		velocity.x = -speed * delta  # Move toward the player
+		velocity.x += speed * delta  # Move toward the player
 
-	translate(velocity)
+	move_and_slide()
 	
 	# disable collision with player on ladder
 	if (character_body_2d.onLadder):
@@ -50,7 +46,7 @@ func _process(delta: float) -> void:
 	checkAttack()
 
 # Change sprite based on action
-func updateAnimation():
+func updateAnimation():	
 	if attacking:
 		boss_sprite.animation = "attack_hit" if hit else "attack"
 	else:
@@ -78,37 +74,39 @@ func checkAttack():
 	var inProximity = abs(character_body_2d.position.x - position.x) <= 90
 
 	# If the player is dodging, start retreating
-	if character_body_2d.isDodging:
+	if character_body_2d.isDodging && !attacking:
 		start_retreat()
 	elif engage and inProximity and !has_attacked:
 		perform_attack()
 
 # Perform the attack on the player and retreat
 func perform_attack():
-	attacking = true
-	has_attacked = true  # Prevent multiple attacks during the same engagement
-
-	# Wait for the attack animation to finish
-	boss_sprite.animation_finished.connect(_on_attack_animation_finished)
+	if !attacking:
+		attacking = true
+		has_attacked = true  # Prevent multiple attacks during the same engagement
+		
+		boss_sprite.animation = "attack"
+		boss_sprite.play()
+		boss_sprite.animation_finished.connect(on_attack_animation_finished)
 
 # Callback when attack animation finishes
-func _on_attack_animation_finished():
-	boss_sprite.animation_finished.disconnect(_on_attack_animation_finished)
+func on_attack_animation_finished():
+	if attacking:
+		# Apply damage to the player
+		if character_body_2d != null:
+			character_body_2d.decrease_health(1)
 
-	# Apply damage to the player
-	if character_body_2d != null:
-		character_body_2d.decrease_health(1)
-
-	# Start retreating after the attack
-	start_retreat()
+		# Start retreating after the attack
+		start_retreat()
 
 # Trigger retreating behavior for a set duration
 func start_retreat():
 	retreating = true
 	attacking = false
 	await get_tree().create_timer(1.5).timeout  # Retreat for 1.5 seconds
-	retreating = false
 	has_attacked = false  # Reset attack state after retreat
+	engage = false
+	retreating = false
 
 # Brings alien look back to normal after being hit
 func _on_hit_effect_timer_timeout() -> void:

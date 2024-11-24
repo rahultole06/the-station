@@ -23,10 +23,10 @@ func _process(delta: float) -> void:
 	if (health == 0):
 		queue_free()
 		
-	if not shooting: # don't move if shooting
+	if not shooting:
 		velocity.x = delta * speed * direction
 		translate(velocity)
-	else:
+	else: # don't move if shooting
 		velocity.x = 0
 	
 	# disable collision with player on ladder

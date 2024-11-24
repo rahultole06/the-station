@@ -164,6 +164,9 @@ func hasBigGun():
 # Setter for suit
 func getSuit():
 	hasSuit = true
+	health = 5
+	for h in 5:
+		health_bar[h].show()
 	shield_panel.show()
 
 # decrease health by x
@@ -173,7 +176,11 @@ func decrease_health(x):
 		shield_bar[shield].hide()
 	else:
 		health -= x
-		health_bar[health].hide()
+		for h in 5:
+			if h < health:
+				health_bar[h].show()
+			else:
+				health_bar[h].hide()
 		if (health <= 0):
 			get_tree().set_pause(true)
 			game_over_panel.show()
