@@ -1,8 +1,7 @@
-[gd_scene load_steps=115 format=4 uid="uid://cowuc8xfpnxvx"]
+[gd_scene load_steps=114 format=4 uid="uid://cowuc8xfpnxvx"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_lj7py"]
 [ext_resource type="Texture2D" uid="uid://dujk20m416w47" path="res://sprites/terrain/TileSet v1.0.png" id="1_pqvwn"]
-[ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_pnfq4"]
 [ext_resource type="Texture2D" uid="uid://ce0twjo5lk0p7" path="res://sprites/background/Space Background No Planets.png" id="2_xr7gb"]
 [ext_resource type="PackedScene" uid="uid://bmqipocaal2er" path="res://scenes/main_character.tscn" id="5_wwtks"]
 [ext_resource type="Texture2D" uid="uid://co4h1aqacwqoe" path="res://sprites/terrain/ladder.png" id="6_o4igp"]
@@ -2259,10 +2258,6 @@ size = Vector2(38, 38)
 [node name="Node" type="Node"]
 script = ExtResource("1_lj7py")
 
-[node name="GameManager" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("2_pnfq4")
-
 [node name="SceneObjects" type="Node" parent="."]
 
 [node name="Backdrop" type="Node" parent="SceneObjects"]
@@ -2534,7 +2529,7 @@ position = Vector2(2006, 964)
 
 [node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar", "shield_bar") instance=ExtResource("5_wwtks")]
 unique_name_in_owner = true
-position = Vector2(728, 477)
+position = Vector2(2358, 394)
 health_bar = [NodePath("../../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart5")]
 shield_bar = [NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield2"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield3"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield4"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield5")]
 

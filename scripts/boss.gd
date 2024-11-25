@@ -8,7 +8,7 @@ var hit = false # checks if alien is hit with bullet
 var engage = false # checks if alien is approaching
 var attacking = false
 var retreating = false  # Tracks if the alien is retreating
-var min_proximity = 70  # Minimum distance from the player
+var min_proximity = 90  # Minimum distance from the player
 var has_attacked = false  # Ensures the alien attacks only once per engagement
 
 # reference to objects
@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 		remove_collision_exception_with(character_body_2d)
 	
 	updateAnimation()
-	checkAttack()
+	checkAttack(delta)
 
 # Change sprite based on action
 func updateAnimation():	
@@ -58,7 +58,7 @@ func decrease_health(x: int) -> void:
 	hit = true
 	hit_effect_timer.start()
 
-func checkAttack():
+func checkAttack(delta):
 	if character_body_2d == null:
 		engage = false
 		attacking = false
@@ -71,11 +71,19 @@ func checkAttack():
 	engage = inLineOfSight and distance_to_player > min_proximity  # Engage only if outside the safe zone
 
 	# Check if the player is in proximity
-	var inProximity = abs(character_body_2d.position.x - position.x) <= 90
+	var inProximity = abs(character_body_2d.position.x - position.x) <= 100
+	
+	var outOfBounds = position.x >= 2725 # keep alien within bounds
+	if outOfBounds:
+		velocity.x = -speed * delta
 
+	var inSight = abs(position.x - character_body_2d.position.x) <= 300
+	if not inSight:
+		velocity.x += speed * delta
+	
 	# If the player is dodging, start retreating
-	if character_body_2d.isDodging && !attacking:
-		start_retreat()
+	if (character_body_2d.isDodging && !attacking):
+		velocity.x += -speed * delta
 	elif engage and inProximity and !has_attacked:
 		perform_attack()
 
