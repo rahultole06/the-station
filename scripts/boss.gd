@@ -74,7 +74,7 @@ func checkAttack(delta):
 	engage = inLineOfSight and distance_to_player > min_proximity  # Engage only if outside the safe zone
 
 	# Check if the player is in proximity
-	var inProximity = abs(character_body_2d.position.x - position.x) <= 100
+	var inProximity = abs(character_body_2d.position.x - position.x) <= 110
 	
 	var outOfBounds = position.x >= 2725 # keep alien within bounds
 	if outOfBounds:

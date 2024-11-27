@@ -2229,7 +2229,7 @@ position = Vector2(2006, 964)
 
 [node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar", "shield_bar", "objectives") instance=ExtResource("5_wwtks")]
 unique_name_in_owner = true
-position = Vector2(1049, 778)
+position = Vector2(1058, 779)
 health_bar = [NodePath("../../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart5")]
 shield_bar = [NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield2"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield3"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield4"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield5")]
 objectives = [NodePath("../../../UI/ObjectivePanel/SmallGunLabel"), NodePath("../../../UI/ObjectivePanel/GoUpLabel"), NodePath("../../../UI/ObjectivePanel/SuitUpLabel"), NodePath("../../../UI/ObjectivePanel/ActivateDoorLabel"), NodePath("../../../UI/ObjectivePanel/HeadDownLabel"), NodePath("../../../UI/ObjectivePanel/SurviveLabel")]
