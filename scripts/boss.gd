@@ -75,10 +75,12 @@ func checkAttack(delta):
 
 	# Check if the player is in proximity
 	var inProximity = abs(character_body_2d.position.x - position.x) <= 110
-	
-	var outOfBounds = position.x >= 2725 # keep alien within bounds
-	if outOfBounds:
+
+	# keep alien within bounds
+	if position.x >= 2725:
 		velocity.x = -speed * delta
+	elif position.x <= 2100:
+		velocity.x = speed * delta
 
 	var inSight = abs(position.x - character_body_2d.position.x) <= 300
 	if not inSight:

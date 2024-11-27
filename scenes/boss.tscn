@@ -161,7 +161,7 @@ unique_name_in_owner = true
 stream = ExtResource("6_qiwji")
 
 [node name="BossNoiseTimer" type="Timer" parent="."]
-wait_time = 2.5
+wait_time = 3.0
 autostart = true
 
 [node name="AttackNoise" type="AudioStreamPlayer" parent="."]

@@ -10,7 +10,7 @@ var clickable = false
 
 # Used to display pickup dialogue in front of storage box
 func _on_body_entered(body: Node2D) -> void:
-	if (body.name == "CharacterBody2D" && !body.hasSmallGun()):
+	if (body.name == "CharacterBody2D" && !body.hasSmallGun() && !body.hasBigGun()):
 		gun_panel.show()
 		clickable = true
 
