@@ -62,6 +62,9 @@ func _physics_process(delta: float) -> void:
 		objectives[2].hide()
 		objectives[3].show()
 
+	if onLadder:
+		disableDodge() # stops dodge if on ladder
+
 	updateAnimation() # animate the sprite
 
 # Reset canShoot to allow player to shoot again
@@ -211,14 +214,14 @@ func disableDodge():
 	dodge_hit_box.set_deferred("disabled", true)
 
 # heading up objective
-func _on_objective_3_body_entered(body: Node2D) -> void:
+func _on_objective_3_body_entered(_body: Node2D) -> void:
 	if !isOnLevelTwo:
 		isOnLevelTwo = true
 		objectives[1].hide()
 		objectives[2].show()
 
 #boss fight objective
-func _on_objective_6_body_entered(body: Node2D) -> void:
+func _on_objective_6_body_entered(_body: Node2D) -> void:
 	if !isOnUnderLevel:
 		objectives[4].hide()
 		objectives[5].show()
