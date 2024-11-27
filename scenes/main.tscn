@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=4 uid="uid://cowuc8xfpnxvx"]
+[gd_scene load_steps=73 format=4 uid="uid://cowuc8xfpnxvx"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_lj7py"]
 [ext_resource type="Texture2D" uid="uid://dujk20m416w47" path="res://sprites/terrain/TileSet v1.0.png" id="1_pqvwn"]
@@ -1933,6 +1933,10 @@ size = Vector2(10, 27)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hvkpp"]
 size = Vector2(20, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5fhi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpx4b"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbe3h"]
 size = Vector2(24, 288)
 
@@ -1954,6 +1958,8 @@ size = Vector2(24, 220)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0e0ml"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pctda"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q7oae"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_lj7py")
@@ -2138,6 +2144,20 @@ unique_name_in_owner = true
 position = Vector2(1, 64)
 shape = SubResource("RectangleShape2D_hvkpp")
 
+[node name="Objective3" type="Area2D" parent="SceneObjects/Scene"]
+position = Vector2(2017, 417)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneObjects/Scene/Objective3"]
+shape = SubResource("RectangleShape2D_v5fhi")
+metadata/_edit_lock_ = true
+
+[node name="Objective6" type="Area2D" parent="SceneObjects/Scene"]
+position = Vector2(2848, 976)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneObjects/Scene/Objective6"]
+shape = SubResource("RectangleShape2D_vpx4b")
+metadata/_edit_lock_ = true
+
 [node name="Interactables" type="Node" parent="SceneObjects"]
 
 [node name="Gun" parent="SceneObjects/Interactables" instance=ExtResource("9_mjpvb")]
@@ -2207,11 +2227,12 @@ position = Vector2(2006, 964)
 
 [node name="HurtMan" parent="SceneObjects/Characters" instance=ExtResource("23_w274l")]
 
-[node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar", "shield_bar") instance=ExtResource("5_wwtks")]
+[node name="CharacterBody2D" parent="SceneObjects/Characters" node_paths=PackedStringArray("health_bar", "shield_bar", "objectives") instance=ExtResource("5_wwtks")]
 unique_name_in_owner = true
-position = Vector2(1234, 782)
+position = Vector2(1049, 778)
 health_bar = [NodePath("../../../UI/HealthPanel/HBoxContainer/Heart"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart2"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart3"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart4"), NodePath("../../../UI/HealthPanel/HBoxContainer/Heart5")]
 shield_bar = [NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield2"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield3"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield4"), NodePath("../../../UI/ShieldPanel/HBoxContainer/Shield5")]
+objectives = [NodePath("../../../UI/ObjectivePanel/SmallGunLabel"), NodePath("../../../UI/ObjectivePanel/GoUpLabel"), NodePath("../../../UI/ObjectivePanel/SuitUpLabel"), NodePath("../../../UI/ObjectivePanel/ActivateDoorLabel"), NodePath("../../../UI/ObjectivePanel/HeadDownLabel"), NodePath("../../../UI/ObjectivePanel/SurviveLabel")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -2493,10 +2514,135 @@ layout_mode = 2
 texture = ExtResource("29_5uaed")
 expand_mode = 2
 
+[node name="ObjectivePanel" type="Panel" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -326.0
+offset_top = 19.0
+offset_right = -24.0
+offset_bottom = 104.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q7oae")
+
+[node name="SmallGunLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2718.0
+offset_bottom = 765.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=yellow]Objective: 
+[color=white]Pick up gun "
+
+[node name="GoUpLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_right = 2718.0
+offset_bottom = 1141.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=yellow]Objective: 
+[color=white]Head up to the 2nd level"
+fit_content = true
+
+[node name="SuitUpLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2718.0
+offset_bottom = 1142.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=yellow]Objective: 
+[color=white]Suit up and take the rifle"
+fit_content = true
+
+[node name="ActivateDoorLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2718.0
+offset_bottom = 1195.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=yellow]Objective: 
+[color=white]Activate door using the control panel"
+fit_content = true
+
+[node name="HeadDownLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2718.0
+offset_bottom = 1142.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=yellow]Objective: 
+[color=white]Head down to the lower level"
+fit_content = true
+
+[node name="SurviveLabel" type="RichTextLabel" parent="UI/ObjectivePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2718.0
+offset_bottom = 765.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/normal_font_size = 300
+theme_override_font_sizes/bold_font_size = 200
+bbcode_enabled = true
+text = "[center][color=white]Objective: 
+[color=red]Survive"
+
 [node name="AudioHandler" parent="." node_paths=PackedStringArray("enemies") instance=ExtResource("28_1denb")]
 unique_name_in_owner = true
 enemies = [NodePath("../SceneObjects/Enemies/Alien_1"), NodePath("../SceneObjects/Enemies/Alien_2"), NodePath("../SceneObjects/Enemies/Alien_3"), NodePath("../SceneObjects/Enemies/Alien_4")]
 
+[connection signal="body_entered" from="SceneObjects/Scene/Objective3" to="SceneObjects/Characters/CharacterBody2D" method="_on_objective_3_body_entered"]
+[connection signal="body_entered" from="SceneObjects/Scene/Objective6" to="SceneObjects/Characters/CharacterBody2D" method="_on_objective_6_body_entered"]
 [connection signal="body_entered" from="SceneObjects/Interactables/Ladders/BaseToFirst" to="SceneObjects/Interactables/Ladders/BaseToFirst" method="_on_body_entered"]
 [connection signal="body_exited" from="SceneObjects/Interactables/Ladders/BaseToFirst" to="SceneObjects/Interactables/Ladders/BaseToFirst" method="_on_body_exited"]
 [connection signal="body_entered" from="SceneObjects/Interactables/Ladders/FirstToSecond" to="SceneObjects/Interactables/Ladders/FirstToSecond" method="_on_body_entered"]

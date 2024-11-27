@@ -16,8 +16,12 @@ var health = 5 # player health
 var shield = 5 # suit shield
 var isDodging = false # to check if player is dodging
 var onLadder = false; # checks if player is on ladder
+var isSuitUpObjective = false # checks if suit up objective has been hit
+var isOnLevelTwo = false # checks if play is on second level
+var isOnUnderLevel = false
 @export var health_bar : Array[Node]
 @export var shield_bar : Array[Node]
+@export var objectives : Array[Node]
 
 # Reference to other objects
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -52,6 +56,11 @@ func _physics_process(delta: float) -> void:
 		isLeft = false
 		if sign($Marker2D.position.x) == -1:
 			$Marker2D.position.x *= -1
+
+	if !isSuitUpObjective && hasBigGun() && hasSuit:
+		isSuitUpObjective = true
+		objectives[2].hide()
+		objectives[3].show()
 
 	updateAnimation() # animate the sprite
 
@@ -145,6 +154,8 @@ func updateAnimation():
 # Setter for guns
 func getSmallGun():
 	gun = "small"
+	objectives[0].hide()
+	objectives[1].show()
 
 func getBigGun():
 	gun = "big"
@@ -198,3 +209,16 @@ func disableDodge():
 	# hitbox handling
 	normal_hit_box.set_deferred("disabled", false)
 	dodge_hit_box.set_deferred("disabled", true)
+
+# heading up objective
+func _on_objective_3_body_entered(body: Node2D) -> void:
+	if !isOnLevelTwo:
+		isOnLevelTwo = true
+		objectives[1].hide()
+		objectives[2].show()
+
+#boss fight objective
+func _on_objective_6_body_entered(body: Node2D) -> void:
+	if !isOnUnderLevel:
+		objectives[4].hide()
+		objectives[5].show()
