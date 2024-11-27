@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://d1pvi52rbn2w1" path="res://sprites/background/Earth Background2.png" id="2_7sf8o"]
 [ext_resource type="Texture2D" uid="uid://copyadj87biaw" path="res://sprites/background/saturn_one.png" id="4_mxy3a"]
 [ext_resource type="Texture2D" uid="uid://cw4sqjufe4e1w" path="res://sprites/background/jupiter_one.png" id="5_55puu"]
-[ext_resource type="Texture2D" uid="uid://c0pkts8w7fait" path="res://sprites/background/wZ9ItVYjXhVtH28XrwHY--1--05lw5.png" id="5_tm0hl"]
 [ext_resource type="Texture2D" uid="uid://26krsplcmei8" path="res://sprites/characters/main-character-mainmenu.png" id="6_d6gb6"]
+[ext_resource type="Texture2D" uid="uid://d0qf5bignnspg" path="res://sprites/background/spaceship.png" id="6_r5q8g"]
 [ext_resource type="Texture2D" uid="uid://1d0b8rjbcwhl" path="res://sprites/characters/alien_1_mainmenu.png" id="7_g7o24"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2xndu"]
@@ -80,7 +80,7 @@ offset_top = -74.0
 offset_right = 187.0
 offset_bottom = 232.0
 grow_vertical = 2
-texture = ExtResource("5_tm0hl")
+texture = ExtResource("6_r5q8g")
 expand_mode = 3
 
 [node name="MainCharacter" type="TextureRect" parent="."]
