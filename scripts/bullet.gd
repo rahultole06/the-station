@@ -9,6 +9,7 @@ extends Area2D
 var speed = 300 # bullet speed
 var direction = 1 # used to handle shoot direction
 var velocity = Vector2() # bullet motion
+var audioPlayed = false # checks if audio played
 
 func _physics_process(delta):
 	velocity.x = speed * delta * direction # motion of bullet * direction (-1 is left, 1 is right)
@@ -27,6 +28,6 @@ func _on_body_entered(body):
 	body.decrease_health(1)
 	queue_free()
 
-# distroy bullet if it leaves viewport
+# destroy bullet if it leaves viewport
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free() 

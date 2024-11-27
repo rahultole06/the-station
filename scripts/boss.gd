@@ -10,12 +10,15 @@ var attacking = false
 var retreating = false  # Tracks if the alien is retreating
 var min_proximity = 90  # Minimum distance from the player
 var has_attacked = false  # Ensures the alien attacks only once per engagement
+var inLineOfSight # checks if player in line with boss
 
 # reference to objects
 @onready var boss_sprite: AnimatedSprite2D = %BossSprite
 @onready var character_body_2d: CharacterBody2D = %CharacterBody2D
 @onready var attack_timer: Timer = %AttackTimer
 @onready var hit_effect_timer: Timer = %HitEffectTimer
+@onready var boss_noise: AudioStreamPlayer = %BossNoise
+@onready var attack_noise: AudioStreamPlayer = %AttackNoise
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -65,7 +68,7 @@ func checkAttack(delta):
 		return
 
 	# Check if the player is in line of sight
-	var inLineOfSight = (character_body_2d.position.y >= position.y - 45) && (character_body_2d.position.y <= position.y + 59)
+	inLineOfSight = (character_body_2d.position.y >= position.y - 45) && (character_body_2d.position.y <= position.y + 59)
 	var distance_to_player = character_body_2d.position.distance_to(position)
 
 	engage = inLineOfSight and distance_to_player > min_proximity  # Engage only if outside the safe zone
@@ -95,7 +98,10 @@ func perform_attack():
 		
 		boss_sprite.animation = "attack"
 		boss_sprite.play()
-		boss_sprite.animation_finished.connect(on_attack_animation_finished)
+		
+		# makes sure it doesn't call multiple times
+		if !boss_sprite.is_connected("animation_finished", on_attack_animation_finished):
+			boss_sprite.animation_finished.connect(on_attack_animation_finished)
 
 # Callback when attack animation finishes
 func on_attack_animation_finished():
@@ -119,3 +125,11 @@ func start_retreat():
 # Brings alien look back to normal after being hit
 func _on_hit_effect_timer_timeout() -> void:
 	hit = false
+
+
+func _on_boss_noise_timer_timeout() -> void:
+	if inLineOfSight:
+		if attacking:
+			attack_noise.play()
+		else:
+			boss_noise.play()

@@ -1,3 +1,5 @@
+# Made by: Rahul M. Tole
+# Class: Game end screen
 extends Node
 
 func _on_home_pressed() -> void:

@@ -15,7 +15,7 @@ func _on_body_entered(body: Node2D) -> void:
 		clickable = true
 
 # Gun pickup logic 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var e_pressed = Input.is_action_just_pressed("interact")
 	if (e_pressed == true && clickable):
 			character_body_2d.getSmallGun()

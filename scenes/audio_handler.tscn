@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://1cumqfwobajw"]
+
+[ext_resource type="Script" path="res://scripts/audio_handler.gd" id="1_wc1qa"]
+[ext_resource type="AudioStream" uid="uid://dtnyxlqemp36f" path="res://audio/characters/walking.mp3" id="2_bngai"]
+[ext_resource type="AudioStream" uid="uid://chnvmx5keeaxv" path="res://audio/characters/small_gunshot.mp3" id="3_d27ij"]
+[ext_resource type="AudioStream" uid="uid://dwdn3woh0v7fb" path="res://audio/characters/dodge.mp3" id="4_j4i72"]
+[ext_resource type="AudioStream" uid="uid://81yetpj82fy8" path="res://audio/characters/ladder_climb.mp3" id="5_1pmxa"]
+[ext_resource type="AudioStream" uid="uid://dl5d6vxjdcf2k" path="res://audio/characters/big_gunshot.mp3" id="6_mexyw"]
+[ext_resource type="AudioStream" uid="uid://cw6crkdahbgcy" path="res://audio/background.mp3" id="7_ngf8q"]
+
+[node name="AudioHandler" type="Node"]
+script = ExtResource("1_wc1qa")
+
+[node name="MainCharacter" type="Node" parent="."]
+
+[node name="WalkingNoise" type="AudioStreamPlayer" parent="MainCharacter"]
+unique_name_in_owner = true
+stream = ExtResource("2_bngai")
+volume_db = -8.0
+pitch_scale = 0.75
+
+[node name="ShootNoise" type="AudioStreamPlayer" parent="MainCharacter"]
+unique_name_in_owner = true
+stream = ExtResource("3_d27ij")
+volume_db = -30.0
+pitch_scale = 0.75
+
+[node name="DodgeNoise" type="AudioStreamPlayer" parent="MainCharacter"]
+unique_name_in_owner = true
+stream = ExtResource("4_j4i72")
+
+[node name="LadderNoise" type="AudioStreamPlayer" parent="MainCharacter"]
+unique_name_in_owner = true
+stream = ExtResource("5_1pmxa")
+
+[node name="BigGunNoise" type="AudioStreamPlayer" parent="MainCharacter"]
+stream = ExtResource("6_mexyw")
+volume_db = -10.0
+
+[node name="BackgroundNoise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ngf8q")
+volume_db = -15.0
+autoplay = true
+parameters/looping = true

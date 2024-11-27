@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ups7wxxjcs4f"]
+
+[ext_resource type="Script" path="res://scripts/suit.gd" id="1_edgao"]
+[ext_resource type="AudioStream" uid="uid://bqka4tvc8wlk" path="res://audio/characters/suitup_noise.mp3" id="2_hjdjd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rpxjs"]
+size = Vector2(38, 38)
+
+[node name="Suit" type="Area2D"]
+position = Vector2(2440, 425)
+script = ExtResource("1_edgao")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rpxjs")
+metadata/_edit_lock_ = true
+
+[node name="SuitNoise" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_hjdjd")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

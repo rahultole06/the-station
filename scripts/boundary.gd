@@ -3,5 +3,5 @@
 extends TileMapLayer
 
 # this keeps the interpreter happy
-func decrease_health(x):
+func decrease_health(_x):
 	pass

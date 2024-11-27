@@ -2,11 +2,12 @@
 # Class: Player mechanic logic
 extends CharacterBody2D
 
-# Instance variables
+# constants
 const SPEED = 200.0 # player speed
 const LADDER_SPEED = 50
-const JUMP_VELOCITY = -250.0 
-const SLOW_DOWN_STEP = 10 # Smoothen player stopping motion
+const bullet = preload("res://scenes/bullet.tscn")
+
+# instance variables
 var isLeft = false # stores direction player is facing
 var gun = "none" # checks if player has gun
 var hasSuit = false # checks if player has suit
@@ -20,14 +21,14 @@ var onLadder = false; # checks if player is on ladder
 
 # Reference to other objects
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-@onready var game_manager: Node = %GameManager
-const bullet = preload("res://scenes/bullet.tscn")
-@onready var shoot_interval: Timer = %ShootInterval
 @onready var normal_hit_box: CollisionShape2D = $NormalHitBox
 @onready var dodge_hit_box: CollisionShape2D = $DodgeHitBox
-@onready var enemies: Node = %Enemies
 @onready var game_over_panel: Panel = %GameOverPanel
 @onready var shield_panel: Panel = %ShieldPanel
+@onready var shoot_interval: Timer = %ShootInterval
+@onready var audio_handler: Node = %AudioHandler
+@onready var shoot_noise: Node = audio_handler.get_child(0).get_child(1)
+@onready var biggun_noise: Node = audio_handler.get_child(0).get_child(4)
 
 # makes sure dodge hitbox is disabled on start
 func _ready() -> void:
@@ -53,23 +54,12 @@ func _physics_process(delta: float) -> void:
 			$Marker2D.position.x *= -1
 
 	updateAnimation() # animate the sprite
-	
-	# add restrictions on ladder
-	if onLadder:
-		add_collision_exception_with(enemies)
-		disableDodge() # makes sure dodging stops on ladder
-	else:
-		remove_collision_exception_with(enemies)
 
 # Reset canShoot to allow player to shoot again
 func _on_shoot_interval_timeout() -> void:
 	canShoot = true	
 
 func inputMap():
-	# Handle jump.
-	#if Input.is_action_just_pressed("jump") and is_on_floor() && !isDodging:
-		#velocity.y = JUMP_VELOCITY
-
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
 	if !isDodging:
@@ -77,12 +67,17 @@ func inputMap():
 			velocity.x = direction * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-	else:
+	else: # stop player movement while dodging
 		velocity.x = 0
+	
 	
 	# Shoot logic
 	var isEquiped = hasSmallGun() || hasBigGun() # checks if player has any gun
 	if Input.is_action_just_pressed("shoot") && isEquiped && !isDodging && canShoot && !onLadder:	
+		if hasBigGun(): # shoot audio
+			biggun_noise.play()
+		else:
+			shoot_noise.play() 
 		var b = bullet.instantiate() # make instance of a new bullet
 		
 		# Sets direction of bullet based on player
@@ -94,6 +89,7 @@ func inputMap():
 		get_parent().add_child(b) # add to scene
 		b.show() # display bullet
 		b.position = $Marker2D.global_position # set bullet start at gun
+		
 		shoot_interval.start() # shoot interval handling
 		canShoot = false # disables rapid shots
 	
@@ -111,7 +107,7 @@ func inputMap():
 		elif Input.is_action_pressed("down"): # going down
 			velocity.y = LADDER_SPEED
 		else: # stop on ladder
-			velocity.y = 0
+			velocity.y = move_toward(velocity.y, 0, SPEED)
 	
 # Update animation sprite based on action
 func updateAnimation():

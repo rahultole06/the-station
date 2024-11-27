@@ -2,7 +2,7 @@
 # Class: Pause panel in-game
 extends Panel
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# input handling
 	if Input.is_action_just_pressed("pause"):
 		if (!is_visible()): # if not visible

@@ -1,10 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://cm6sprxc3nyt6"]
+[gd_scene load_steps=19 format=3 uid="uid://cm6sprxc3nyt6"]
 
 [ext_resource type="Texture2D" uid="uid://cim8ywlmpp2k6" path="res://sprites/characters/alien_1_idle.png" id="1_2loe8"]
 [ext_resource type="Script" path="res://scripts/alien_1.gd" id="1_17g0q"]
 [ext_resource type="Texture2D" uid="uid://c55804e85wyc8" path="res://sprites/characters/alien_1_walking.png" id="2_i88mx"]
 [ext_resource type="Texture2D" uid="uid://37ft2a3xhtdl" path="res://sprites/characters/alien_1_idle_hit.png" id="3_btppo"]
 [ext_resource type="Texture2D" uid="uid://y2hvtqrtwiyy" path="res://sprites/characters/alien_1_walking_hit.png" id="5_42xwn"]
+[ext_resource type="AudioStream" uid="uid://dgukp78jttj6k" path="res://audio/characters/alien_talking.mp3" id="6_0fruh"]
+[ext_resource type="AudioStream" uid="uid://ou0khcy4y7uj" path="res://audio/characters/perish_noise.mp3" id="7_bwj4w"]
+[ext_resource type="AudioStream" uid="uid://dtnyxlqemp36f" path="res://audio/characters/walking.mp3" id="8_vle5j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rqvwe"]
 atlas = ExtResource("1_2loe8")
@@ -99,6 +102,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 physics_interpolation_mode = 2
 position = Vector2(0, 14.5)
 shape = SubResource("RectangleShape2D_ryim2")
@@ -119,7 +123,32 @@ wait_time = 1.5
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[node name="NoiseTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+autostart = true
+
+[node name="AlienNoise" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_0fruh")
+volume_db = -15.0
+
+[node name="PerishNoise" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_bwj4w")
+
+[node name="PerishTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 1.2
+
+[node name="WalkNoise" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_vle5j")
+volume_db = -10.0
+
 [connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="HitEffectTimer" to="." method="_on_hit_effect_timer_timeout"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="timeout" from="NoiseTimer" to="." method="_on_noise_timer_timeout"]
+[connection signal="timeout" from="PerishTimer" to="." method="_on_perish_timer_timeout"]
