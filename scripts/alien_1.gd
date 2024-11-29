@@ -26,9 +26,6 @@ var isVisible = false
 @onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D
 @onready var walk_noise: AudioStreamPlayer2D = %WalkNoise
 
-func _ready() -> void:
-	alien_noise.play()
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Health checker
@@ -109,6 +106,7 @@ func _on_hit_effect_timer_timeout() -> void:
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	isVisible = true
 	shoot_timer.start()
+	alien_noise.play()
 
 
 func _on_shoot_timer_timeout() -> void:
